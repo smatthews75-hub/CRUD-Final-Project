@@ -16,7 +16,9 @@ if __name__ == '__main__':
     fieldnames, main_data_dict, groups_of_data = df_.cf_.read_n_dict(file_path, GROUPABLES, RANKED_FIELD, STORED_RANKS)
 
     # finish and write evrything in the system back to file storage
-    df_.cf_.write_dicts(file_path, fieldnames, main_data_dict, groups_of_data, RANKED_FIELD, STORED_RANKS)
+    # df_.cf_.write_dicts(file_path, fieldnames, main_data_dict, groups_of_data, RANKED_FIELD, STORED_RANKS)
+    ranking = groups_of_data[RANKED_FIELD].keys().sort()
+    print(ranking)
 
     # for name in main_data_dict:
     #     print(f"{name} : {main_data_dict[name]}")
