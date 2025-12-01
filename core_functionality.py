@@ -24,6 +24,15 @@ def read_n_dict(file_path, groupables, ranked_field, stored_ranks):
                 if group_name not in group_dict[group]: # create the list if it havent existed yet
                     group_dict[group][group_name] = [name] # This creates a list of names !
                 else : group_dict[group][group_name].append(name) # just append otherwise !
-    
     # return the dicts
-    return main_dict, group_dict
+    return reader.fieldnames, main_dict, group_dict
+
+
+
+# Write back to file from the dictionaries
+def write_dicts(file_path, headers, main_dict, group_dict, ranked_field, stored_rank):
+    # get the rank sorted out
+    ranking = group_dict[ranked_field].keys().sort()
+    
+    with open(file_path, "w", newline='', encoding='utf-8') as file_:
+        writer = csv.DictWriter(file_, fieldnames=headers)
