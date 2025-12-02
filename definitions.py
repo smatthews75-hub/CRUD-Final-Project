@@ -2,10 +2,11 @@ import core_functionality as cf_
 
 # ============================================================================================== CREATE
 # the classic create part of the CRUD
-def create(main_dict, group_dict, fieldnames, main_key, groupables, ranked_field, rank_storage):
+def create(main_dict, group_dict, FIELDNAMES, main_key, groupables, ranked_field, rank_storage):
     print("Welcome to Create mode")
     print("Create new objects to store in the CSV file")
     print("Note that the user is responsible for fields created")
+    fieldnames = FIELDNAMES.copy() # This is so it doesnt change the real fieldname header
     # remember the main_key field is turned into the key so get rid of the main_key
     fieldnames.remove(main_key)
     # the user doesnt get to set this ranking
@@ -18,7 +19,8 @@ def create(main_dict, group_dict, fieldnames, main_key, groupables, ranked_field
         new_key = input(f"Set the {main_key} : ")
         # prompt the fields of that key
         for field in fieldnames:
-            if fieldnames == ranked_field : # if the user has to fill in the ranked_field must be numeric
+            print(f"{field} == {ranked_field}")
+            if field == ranked_field : # if the user has to fill in the ranked_field must be numeric
                 answers_buffer[field] = cf_.get_numeric(f">>> {field} : ")
             else : # anything else
                 answers_buffer[field] = input(f">>> {field} : ")
@@ -32,7 +34,6 @@ def create(main_dict, group_dict, fieldnames, main_key, groupables, ranked_field
             # CREATE TO MAIN DICTIONARY
             main_dict[new_key] = answers_buffer
             # ALSO GROUP INTO GROUPABLES
-            groupables.append(ranked_field)
             for group in groupables: # populate the group_dict
                 group_name = answers_buffer[group] # get the name of the current row's group
                 if group_name not in group_dict[group]: # create the list if it havent existed yet

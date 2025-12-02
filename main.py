@@ -15,29 +15,29 @@ groups_of_data = {}
 # main to make it clear and explicit !
 if __name__ == '__main__':
     # open the file and load its contents into the system
-    fieldnames, main_data_dict, groups_of_data = df_.cf_.read_n_dict(file_path, MAIN_KEY, GROUPABLES, RANKED_FIELD, RANK_STORAGE)
+    FIELDNAMES, main_data_dict, groups_of_data = df_.cf_.read_n_dict(file_path, MAIN_KEY, GROUPABLES, RANKED_FIELD, RANK_STORAGE)
 
     # program loop
-    print(fieldnames)
+    print(FIELDNAMES)
     while True:
         df_.display_menu()
         # get an action input
         match input("Enter action : "):
             # CREATE
             case '1':
-                main_data_dict, groups_of_data = df_.create(main_data_dict, groups_of_data, fieldnames, MAIN_KEY, GROUPABLES, RANKED_FIELD,RANK_STORAGE)
+                main_data_dict, groups_of_data = df_.create(main_data_dict, groups_of_data, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD,RANK_STORAGE)
 
             # READ
             case '2':
-                main_data_dict, groups_of_data = df_.read(main_data_dict, groups_of_data, fieldnames)
+                main_data_dict, groups_of_data = df_.read(main_data_dict, groups_of_data, FIELDNAMES)
 
             # UPDATE
             case '3':
-                main_data_dict, groups_of_data = df_.update(main_data_dict, groups_of_data, fieldnames)
+                main_data_dict, groups_of_data = df_.update(main_data_dict, groups_of_data, FIELDNAMES)
                 
             # DELETE
             case '4':
-                main_data_dict, groups_of_data = df_.delete(main_data_dict, groups_of_data, fieldnames)
+                main_data_dict, groups_of_data = df_.delete(main_data_dict, groups_of_data, FIELDNAMES)
                 
             # EXIT
             case '5':
@@ -45,7 +45,7 @@ if __name__ == '__main__':
                 break
 
     # finish and write everything in the system back to file storage
-    # df_.cf_.write_dicts(file_path, fieldnames, MAIN_KEY, main_data_dict, groups_of_data, RANKED_FIELD, RANK_STORAGE)
+    df_.cf_.write_dicts(file_path, FIELDNAMES, MAIN_KEY, main_data_dict, groups_of_data, RANKED_FIELD, RANK_STORAGE)
 
 
     # df_.cf_.get_by_major_group(groups_of_data, "Marketcap")
