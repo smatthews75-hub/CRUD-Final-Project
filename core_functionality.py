@@ -34,7 +34,7 @@ def handle_groups(GROUPABLES, name_key, row_value, group_dict):
     # for each fieldnames to be group-ed
     for group in GROUPABLES: # populate the group_dict
         group_name = row_value[group] # get the name of the current row's group
-        group_name = group_name.upper() if type(group_name) is str else group_name
+        group_name = group_name.upper() if type(group_name) == str else group_name
         if group_name not in group_dict[group]: # create the list if it havent existed yet
             group_dict[group][group_name] = [name_key] # This creates the first list of names!
         else : group_dict[group][group_name].append(name_key) # just append otherwise

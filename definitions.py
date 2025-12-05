@@ -63,7 +63,7 @@ def read__(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
         found_something = False
         match input("Enter Action : "):
             case '1': found_something = show_by_main_keys(main_dict, MAIN_KEY) # if something is found offer to read or update it
-            case '2': found_something = show_by_group_values(main_dict, group_dict, MAIN_KEY) # show by groups
+            case '2': found_something = show_by_group_values(main_dict, group_dict, MAIN_KEY, RANKED_FIELD) # show by groups
             case '3': break
 
         if found_something:
@@ -123,9 +123,19 @@ def update(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
 
 
 # ============================================================================================== DELETE
-# the classic delete part of the CRUD
+# the classic delete part of the CRUD --- BY DEARRYL 252410907
 def delete(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD, RANK_STORAGE):
     print("Welcome to <<< DELETE MODE >>>")
+    while True:
+        key2del = input("Enter the company you want to delete: ").upper()
+        if key2del in main_dict and input(f"Are you sure to delete {key2del}? (y/n): ") in 'Yy':
+            for group in GROUPABLES:
+                group_name = main_dict[key2del][group]
+                group_name = group_name.upper() if type(group_name) == str else group_name
+                group_dict[group][group_name].remove(key2del)
+            main_dict.pop(key2del)
+        else: print(f"{key2del} not found in the CSV data")
+        if input("Delete another ? (y/n)") not in 'Yy': break
     return main_dict, group_dict
 
 # ============================================================================================== 
@@ -143,7 +153,7 @@ def show_by_main_keys(main_dict, MAIN_KEY):
     return False # found nothing
 
 # help the read function to display based on group_dict
-def show_by_group_values(main_dict, group_dict, MAIN_KEY):
+def show_by_group_values(main_dict, group_dict, MAIN_KEY, RANKED_FIELD):
     options = {}
     # display each field
     for i, fields in enumerate(group_dict):
@@ -163,20 +173,28 @@ def show_by_group_values(main_dict, group_dict, MAIN_KEY):
         print(f"{groups:<15} | ", end='')
         if j % 10 == 0 : print()
     selected_group = input(f"\nSELECT from which group is the {MAIN_KEY} you're looking for ? ").upper()
+    # CHECK IF THIS SELECTED GROUP IS FROM THE RANKED FIELD
+    print(selected_field, RANKED_FIELD)
+    if selected_field == RANKED_FIELD:  # if the group is numeric try to convert
+        print("Trying to convert to float...")
+        try : selected_group = float(selected_group)
+        except : 
+            print(f"Groups of this {selected_group} has to be a float.")
+            return False
     # if the user selected a non option
     if selected_group not in group_dict[selected_field]:
         print(f"'{selected_group}' does not exist.")
         return False
-    
     # if the user did select a valid group, display keys
     print(f"{MAIN_KEY} under this {selected_group} group :")
     for k, keys in enumerate(group_dict[selected_field][selected_group]):
         print(f"{keys:<15} | ", end='')
         if k % 10 == 0 : print()
+
     selected_key = input(f"\nSELECT which {MAIN_KEY} are you looking for ? ").upper()
     # if the user selected a non option
     if selected_key not in group_dict[selected_field][selected_group]:
-        print(f"{selected_group} does not exist.")
+        print(f"{selected_key} does not exist.")
         return False
     
     # FINALLY FOUND A MATCH BY GROUP
