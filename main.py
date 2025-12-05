@@ -1,5 +1,5 @@
 import definitions as df_
-file_path = './6000_Largest_Companies_ranked_by_Market_Cap.csv'
+file_path = 'C:/only for college/PPT - PAP/Files/CRUD-Final-Project/6000_Largest_Companies_ranked_by_Market_Cap.csv'
 # This defines the field to be used as the main key
 MAIN_KEY = "Name"
 # GROUPABLES are defined as the strings of the field_types in the header of the csv file
