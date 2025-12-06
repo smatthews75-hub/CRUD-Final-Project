@@ -1,14 +1,14 @@
 import definitions as df_
 file_path = './6000_Largest_Companies_ranked_by_Market_Cap.csv'
 # This defines the field to be used as the main key
-MAIN_KEY = "Name"
+MAIN_KEY = "NAME"
 # GROUPABLES are defined as the strings of the field_types in the header of the csv file
 # fields in the GROUPABLES are to be major groups of fields with names
-GROUPABLES = ["Symbol", "Country"]
+GROUPABLES = ["SYMBOL", "COUNTRY"]
 # we only give an option to rank one field
-RANKED_FIELD = "Marketcap"
+RANKED_FIELD = "MARKETCAP"
 # where to store the ranking
-RANK_STORAGE = "Rank"
+RANK_STORAGE = "RANK"
 
 main_data_dict = {}
 groups_of_data = {}

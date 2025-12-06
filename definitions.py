@@ -31,7 +31,7 @@ def create(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
             if field == RANKED_FIELD : # if the user has to fill in the RANKED_FIELD must be numeric
                 answers_buffer[field] = cf_.get_numeric(f">>> {field} : ")
             else : # anything else
-                answers_buffer[field] = input(f">>> {field} : ")
+                answers_buffer[field] = input(f">>> {field} : ").upper()
         
         # show a preview of what was typed
         print(f"{new_key} : {answers_buffer}")
@@ -104,7 +104,7 @@ def update(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
                 print(f"YOU ARE ABOUT TO CHANGE THE {MAIN_KEY} !")
                 new_main_key = input(f"What shall be the new {MAIN_KEY} : ").upper()
                 main_dict[new_main_key] = main_dict[selected_key] # new named key
-                main_dict.remove(selected_key) # remove the previously named key
+                main_dict.pop(selected_key) # remove the previously named key
             
             # if the chosen thing to change is not present
             if which_to_change not in main_dict[selected_key]:
@@ -117,7 +117,7 @@ def update(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
             elif which_to_change == RANKED_FIELD:
                 main_dict[selected_key][which_to_change] = cf_.get_numeric(f"Enter new value for {which_to_change} : ")
             else:
-                main_dict[selected_key][which_to_change] = input(f"Enter new value for {which_to_change} : ")
+                main_dict[selected_key][which_to_change] = input(f"Enter new value for {which_to_change} : ").upper()
 
     return main_dict, group_dict
 
@@ -128,7 +128,9 @@ def delete(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
     print("Welcome to <<< DELETE MODE >>>")
     while True:
         key2del = input("Enter the company you want to delete: ").upper()
+        # Finding and deleting it from main_dict and group_dict
         if key2del in main_dict and input(f"Are you sure to delete {key2del}? (y/n): ") in 'Yy':
+            # Removing it from group_dict first 
             for group in GROUPABLES:
                 group_name = main_dict[key2del][group]
                 group_name = group_name.upper() if type(group_name) == str else group_name
@@ -157,25 +159,26 @@ def show_by_main_keys(main_dict, MAIN_KEY):
 
 # help the read function to display based on group_dict
 def show_by_group_values(main_dict, group_dict, MAIN_KEY, RANKED_FIELD):
-    options = {}
     # display each field
     for i, fields in enumerate(group_dict):
         print(f"{str(i+1)+'.':<3} {fields}")
-        options[str(i+1)] = fields
-    # get the user to choose
-    selected_field = input("SELECT THE NUMBER from which field is the group you're looking for : ")
-    # if the user selected a non option
-    if selected_field not in options:
+    
+    # get the user to choose the field
+    selected_field = input("SELECT from which field is the group you're looking for : ").upper()
+
+    # if the user selected a non option ---> NEGATIVE CASE
+    if selected_field not in group_dict:
         print(f"'{selected_field}' is not an option.")
         return False
     
-
-    selected_field = options[selected_field]
     # if the user did select an option, display the whole thing
     for j, groups in enumerate(group_dict[selected_field]):
-        print(f"{groups:<15} | ", end='')
-        if j % 10 == 0 : print()
+        print(f"{j+1}.{groups:<15} | ", end='')
+        if (j+1) % 10 == 0 : print()
+
+    # get the user ti choose a group
     selected_group = input(f"\nSELECT from which group is the {MAIN_KEY} you're looking for ? ").upper()
+
     # CHECK IF THIS SELECTED GROUP IS FROM THE RANKED FIELD
     if selected_field == RANKED_FIELD:  # if the group is numeric try to convert
         print("Trying to convert to float...")
@@ -183,20 +186,24 @@ def show_by_group_values(main_dict, group_dict, MAIN_KEY, RANKED_FIELD):
         except : 
             print(f"Groups of this {selected_group} has to be a float.")
             return False
-    # if the user selected a non option
+        
+    # if the user selected a non option  ---> NEGATIVE CASE
     if selected_group not in group_dict[selected_field]:
         print(f"'{selected_group}' does not exist.")
         return False
+    
     # if the user did select a valid group, display keys
     print(f"{MAIN_KEY} under this {selected_group} group :")
     for k, keys in enumerate(group_dict[selected_field][selected_group]):
         print(f"{keys:<15} | ", end='')
-        if k % 10 == 0 : print()
+        if (k+1) % 10 == 0 : print()
 
+    # get the user to choose a key from this group
     selected_key = input(f"\nSELECT which {MAIN_KEY} are you looking for ? ").upper()
-    # if the user selected a non option
+
+    # if the user selected a non option ---> NEGATIVE CASE
     if selected_key not in group_dict[selected_field][selected_group]:
-        print(f"{selected_key} does not exist.")
+        print(f"{selected_key} does not exist in this group.")
         return False
     
     # FINALLY FOUND A MATCH BY GROUP

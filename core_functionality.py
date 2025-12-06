@@ -21,7 +21,15 @@ def read_n_dict(file_path, MAIN_KEY, groupables, RANKED_FIELD, RANK_STORAGE):
                 row_[RANK_STORAGE] = int(row_[RANK_STORAGE]) # convert these as numerical value
             except ValueError: continue # skip invalid data
 
-            main_dict[name] = row_ # main contains all the fields as value of each Name as key
+            row_buffer = {}
+            for key, value in row_.items(): # clean up string fields
+                if type(key) == str:
+                    key = key.upper()
+                if type(value) == str:
+                    value = value.upper()
+                row_buffer[key] = value
+            
+            main_dict[name] = row_buffer # main contains all the fields as value of each Name as key
 
             group_dict = handle_groups(groupables, name, row_, group_dict)
             
