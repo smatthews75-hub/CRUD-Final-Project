@@ -5,6 +5,7 @@ MAIN_KEY = "NAME"
 # GROUPABLES are defined as the strings of the field_types in the header of the csv file
 # fields in the GROUPABLES are to be major groups of fields with names
 GROUPABLES = ["SYMBOL", "COUNTRY"]
+
 # we only give an option to rank one field
 RANKED_FIELD = "MARKETCAP"
 # where to store the ranking
@@ -16,6 +17,7 @@ groups_of_data = {}
 # main to make it clear and explicit !
 if __name__ == '__main__':
     # open the file and load its contents into the system, indicate that GROUPABLES were changed
+    df_.cf_.read_n_dict
     FIELDNAMES, GROUPABLES, main_data_dict, groups_of_data = df_.cf_.read_n_dict(file_path, MAIN_KEY, GROUPABLES, RANKED_FIELD, RANK_STORAGE)
 
     # program loop

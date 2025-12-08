@@ -14,10 +14,10 @@ def create(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
 
     # create loop
     while True:
-        answers_buffer = {}
-        # prompt the new key first
+        answers_buffer = {} #' '
+        # prompt the new key first '':false 'APPLE':true
         new_key = input(f"====================================== Create the {MAIN_KEY} : ").upper()
-        if not new_key: continue # make sure they dont create an empty named thing
+        if new_key == '': continue # make sure they dont create an empty named thing
 
         # Check if data with that key already exists
         if new_key in main_dict:
@@ -26,7 +26,7 @@ def create(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
             else : break # exit create mode
         
         # prompt the fields of that key
-        for field in fieldnames:
+        for field in fieldnames: # SYMBOL,MARKETCAP,PRICE (USD),COUNTRY
             while True:
                 if field == RANKED_FIELD : # if the user has to fill in the RANKED_FIELD must be numeric
                     answers_buffer[field] = cf_.get_numeric(f">>> {field} : ")
@@ -89,7 +89,7 @@ def update(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
     # update loop
     while True:
 
-        # ask which key of the data to update
+        # ask which key of the data to update ''
         selected_key = input(f": : : : : Enter the {MAIN_KEY} of the data you want to change : (enter nothing to exit) ").upper()
 
         # if there is no such key that was selected ---> NEGATIVE CASE
@@ -141,8 +141,8 @@ def update(main_dict, group_dict, FIELDNAMES, MAIN_KEY, GROUPABLES, RANKED_FIELD
                         break
                     else : print("You can't input nothing")
             
-            # update groups, clever use of the remove and add to update values
-            group_dict = cf_.add_groups(GROUPABLES, selected_key, main_dict[selected_key], group_dict)
+        # update groups, clever use of the remove and add to update values
+        group_dict = cf_.add_groups(GROUPABLES, selected_key, main_dict[selected_key], group_dict)
     return main_dict, group_dict
 
 
