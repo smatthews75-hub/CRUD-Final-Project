@@ -5,7 +5,6 @@ MAIN_KEY = "NAME"
 # GROUPABLES are defined as the strings of the field_types in the header of the csv file
 # fields in the GROUPABLES are to be major groups of fields with names
 GROUPABLES = ["SYMBOL", "COUNTRY"]
-
 # we only give an option to rank one field
 RANKED_FIELD = "MARKETCAP"
 # where to store the ranking
